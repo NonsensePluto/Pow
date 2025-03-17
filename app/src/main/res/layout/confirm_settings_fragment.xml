@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_background">
+
+    <TextView
+        android:id="@+id/wordsCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/defaultWordsPhrase"
+        android:textSize="20sp"
+        android:layout_margin="15dp"
+        />
+
+    <TextView
+        android:id="@+id/teamsCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/defaultTeamPhrase"
+        android:textSize="20sp"
+        android:layout_margin="15dp"
+        />
+
+    <TextView
+        android:id="@+id/forthRoundTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/defaultForthRoundPhrase"
+        android:textSize="20sp"
+        android:layout_margin="15dp"
+        />
+
+    <TextView
+        android:id="@+id/hardcoreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/defaultHardcorePhrase"
+        android:textSize="20sp"
+        android:layout_margin="15dp"
+        />
+
+    <Button
+        android:id="@+id/confirmSettingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/black"
+        android:text="@string/confirmText"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="15dp"
+        />
+
+</LinearLayout>

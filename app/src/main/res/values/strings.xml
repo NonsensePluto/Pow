@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Boom2</string>
+    <string name="startText">Играть</string>
+    <string name="settingText">Настройки</string>
+    <string name="ruleText">Правила</string>
+    <string name="teamsSettings">Настройка команд</string>
+    <string name="addTeam">Добавить</string>
+    <string name="removeTeam">Удалить</string>
+    <string name="teamNameString">Команда</string>
+    <string name="addForthRound">Добавить раунд \"Одна буква\"</string>
+    <string name="hardcoreModeOn">Включить режим \"Хардкор\"</string>
+    <string name="confirmText">Принять</string>
+    <string name="defaultWordsPhrase">Кол-во слов</string>
+    <string name="defaultTeamPhrase">Кол-во команд</string>
+    <string name="defaultForthRoundPhrase">Четвертый раунд</string>
+    <string name="defaultHardcorePhrase">Режим хардкор</string>
+    <string name="confirmExitText">Вы уверены что хотите выйти?\nВесь прогресс будет утерян</string>
+    <string name="countOfWords">Количество слов</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+
+</resources>
