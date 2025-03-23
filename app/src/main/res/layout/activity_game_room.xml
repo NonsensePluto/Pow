@@ -23,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
+        android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/timerText"/>
@@ -37,7 +38,8 @@
         app:layout_constraintTop_toTopOf="@id/wordText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="100dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

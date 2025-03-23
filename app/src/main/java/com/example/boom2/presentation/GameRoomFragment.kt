@@ -18,7 +18,7 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
 
     private var binding: ActivityGameRoomBinding? = null
     private val gameViewModel: GameViewModel by activityViewModels()
-//    private lateinit var wordsManager: WordsManager
+    private lateinit var wordsManager: WordsManager
 
     private lateinit var timerText: TextView
     private lateinit var gameTimer : GameTimer
@@ -29,58 +29,63 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        wordsManager = WordsManager(this.requireContext())
-//        binding = ActivityGameRoomBinding.bind(view)
-//        timerText = view.findViewById(R.id.timerText)
-//
-//        val unguessedWords = gameViewModel.unGuessedWords.value ?: return
-//        val guessedWords = gameViewModel.guessedWords.value ?: return
-//        val currentTeam = gameViewModel.teams.value?.get(gameViewModel.currTeamNumber.value!! - 1) ?: return
-//
-//
-//        var currWord = unguessedWords.let { wordsManager.selectRandomWord(it) }
-//        binding?.wordText?.text = currWord
-//
-//
-//        binding?.pointsButton?.setOnClickListener {
-//            currentTeam.wordsCount++
-//            guessedWords.add(currWord!!)
-//            unguessedWords.remove(currWord)
-//            if (unguessedWords.isEmpty()) {
-//                currWord = unguessedWords.let { wordsManager.selectRandomWord(it) }
-//                binding?.wordText?.text = currWord
-//            } else {
-//                gameViewModel.endRound.value = true
-//                endSession()
-//            }
-//        }
+        wordsManager = WordsManager(this.requireContext())
+        binding = ActivityGameRoomBinding.bind(view)
+        timerText = view.findViewById(R.id.timerText)
 
-        var currWord = gameViewModel.randomWord()
+        val unguessedWords = gameViewModel.unGuessedWords.value ?: return
+        val guessedWords = gameViewModel.guessedWords.value ?: return
+        val currentTeam = gameViewModel.teams.value?.get(gameViewModel.currTeamNumber.value!! - 1) ?: return
+
+
+        var currWord = unguessedWords.let { wordsManager.selectRandomWord(it) }
         binding?.wordText?.text = currWord
 
+
         binding?.pointsButton?.setOnClickListener {
-            gameViewModel.guessedWord(currWord!!)
-            if (gameViewModel.getSize() != 0) {//почему то до этого стоит проверка на исЭмпти тру
-                currWord = gameViewModel.randomWord()
+            currentTeam.wordsCount++
+            guessedWords.add(currWord!!)
+            unguessedWords.remove(currWord)
+            if (unguessedWords.isEmpty() == false) {
+                currWord = unguessedWords.let { wordsManager.selectRandomWord(it) }
                 binding?.wordText?.text = currWord
             } else {
-                gameViewModel.endRound()
+                gameViewModel.endRound.value = true
                 endSession()
             }
         }
 
+//        var currWord = gameViewModel.randomWord()
+//        binding?.wordText?.text = currWord
+//
+//        binding?.pointsButton?.setOnClickListener {
+//            gameViewModel.guessedWord(currWord!!)
+//            if (gameViewModel.getSize() != 0) {//почему то до этого стоит проверка на исЭмпти тру
+//                currWord = gameViewModel.randomWord()
+//                binding?.wordText?.text = currWord
+//            } else {
+//                gameViewModel.endRound()
+//                endSession()
+//            }
+//        }
+
         startCountdown()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        gameTimer.stop()
-    }
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        gameTimer.stop()
+//    }
 
 
     private fun endSession() {
-//        gameViewModel.switchTeam.value = !(halfTime && gameViewModel.endRound.value == true)
-        gameViewModel.switchTeam()
+        if(halfTime && gameViewModel.endRound.value == true) {
+            gameViewModel.switchTeam.value = false
+        } else {
+            gameViewModel.switchTeam.value = true
+        }
+        gameTimer.stop()
+//        gameViewModel.switchTeam()
         Navigator.navigate(parentFragmentManager, GameLobbyFragment())
     }
 

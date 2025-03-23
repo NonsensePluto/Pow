@@ -1,5 +1,6 @@
 package com.example.boom2.presentation
 
+
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -34,6 +35,8 @@ class ConfirmSettingsFragment:DialogFragment() {
 
         val confirmButton = view.findViewById<Button>(R.id.confirmSettingsButton)
 
+
+
         viewModel.countOfWords.observe(viewLifecycleOwner) { countOfWords ->
             wordsCountText.text = "Количество слов: $countOfWords"
         }
@@ -59,10 +62,6 @@ class ConfirmSettingsFragment:DialogFragment() {
         }
 
         confirmButton.setOnClickListener {
-            /*parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, GameLobbyFragment())
-                .addToBackStack(null)
-                .commit()*/
             Navigator.navigate(parentFragmentManager, GameLobbyFragment())
             dismiss()
         }

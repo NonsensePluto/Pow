@@ -3,9 +3,8 @@ package com.example.boom2.data.event
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.boom2.R
-import javax.inject.Inject
 
-class TeamGenerator @Inject constructor() {
+object TeamGenerator {
 
     private var teams: MutableList<Team> = mutableListOf()
 

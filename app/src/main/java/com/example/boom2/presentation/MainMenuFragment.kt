@@ -27,13 +27,6 @@ class MainMenuFragment : Fragment(R.layout.activity_main_menu) {
 
     }
 
-    /*private fun navigate(fragment: Fragment) {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, fragment)
-            .addToBackStack(null)
-            .commit()
-    }*/
-
     override fun onDestroy() {
         super.onDestroy()
         binding = null

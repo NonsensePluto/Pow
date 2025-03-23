@@ -30,10 +30,6 @@ class ConfirmExitFragment: DialogFragment() {
         val rejectButton = view.findViewById<Button>(R.id.rejectExitButton)
 
         confirmButton.setOnClickListener {
-            /*parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, MainMenuFragment())
-                .addToBackStack(null)
-                .commit()*/
             Navigator.navigate(parentFragmentManager, MainMenuFragment())
             viewModel.resetGame()
             dismiss()
