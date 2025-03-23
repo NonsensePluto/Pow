@@ -1,4 +1,4 @@
-package com.example.boom2.presentation
+package com.example.boom2.presentation.game
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,9 +12,9 @@ import com.example.boom2.R
 import com.example.boom2.data.Navigator
 import com.example.boom2.data.WordsManager
 import com.example.boom2.data.adapter.ResultAdapter
-import com.example.boom2.data.adapter.TeamAdapter
 import com.example.boom2.databinding.ActivityGameResultBinding
-import com.example.boom2.databinding.ActivitySettingsBinding
+import com.example.boom2.presentation.menu.MainMenuFragment
+import com.example.boom2.presentation.settings.SettingsViewModel
 
 class GameResultFragment: Fragment(R.layout.activity_game_result) {
 

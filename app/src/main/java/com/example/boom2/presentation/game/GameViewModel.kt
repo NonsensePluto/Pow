@@ -1,12 +1,13 @@
-package com.example.boom2.presentation
+package com.example.boom2.presentation.game
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.boom2.data.WordsManager
 import com.example.boom2.data.event.Team
 import com.example.boom2.data.event.TeamGenerator
+import com.example.boom2.presentation.settings.SettingsViewModel
+
 //import com.example.boom2.domain.GameState
 //import com.example.boom2.domain.GetSizeUseCase
 //import com.example.boom2.domain.GuessedWordUseCase

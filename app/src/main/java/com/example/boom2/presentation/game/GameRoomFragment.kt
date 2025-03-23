@@ -1,10 +1,8 @@
-package com.example.boom2.presentation
+package com.example.boom2.presentation.game
 
+import android.media.MediaPlayer
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,25 +11,33 @@ import com.example.boom2.data.GameTimer
 import com.example.boom2.data.Navigator
 import com.example.boom2.data.WordsManager
 import com.example.boom2.databinding.ActivityGameRoomBinding
+import com.example.boom2.presentation.settings.SettingsViewModel
 
 class GameRoomFragment: Fragment(R.layout.activity_game_room) {
 
     private var binding: ActivityGameRoomBinding? = null
     private val gameViewModel: GameViewModel by activityViewModels()
+    private val settingsViewModel: SettingsViewModel by activityViewModels()
     private lateinit var wordsManager: WordsManager
+    private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var mediaPlayer2: MediaPlayer
+
 
     private lateinit var timerText: TextView
     private lateinit var gameTimer : GameTimer
     private var halfTime = true
-    private val time: Long = 30000L
-
+    private var time: Long = 30000L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         wordsManager = WordsManager(this.requireContext())
+        mediaPlayer = MediaPlayer.create(this.requireContext(), R.raw.guessed)
+        mediaPlayer2 = MediaPlayer.create(this.requireContext(), R.raw.shoot)
         binding = ActivityGameRoomBinding.bind(view)
         timerText = view.findViewById(R.id.timerText)
+
+        time = settingsViewModel.roundTime.value?.times(1000) ?: 0
 
         val unguessedWords = gameViewModel.unGuessedWords.value ?: return
         val guessedWords = gameViewModel.guessedWords.value ?: return
@@ -44,6 +50,7 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
 
         binding?.pointsButton?.setOnClickListener {
             currentTeam.wordsCount++
+            mediaPlayer.start()
             guessedWords.add(currWord!!)
             unguessedWords.remove(currWord)
             if (unguessedWords.isEmpty() == false) {
@@ -84,6 +91,7 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
         } else {
             gameViewModel.switchTeam.value = true
         }
+        mediaPlayer2.start()
         gameTimer.stop()
 //        gameViewModel.switchTeam()
         Navigator.navigate(parentFragmentManager, GameLobbyFragment())
@@ -91,12 +99,22 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
 
     private fun startCountdown() {
         gameTimer = GameTimer(
-            totalTime = 30000L,
+            totalTime = time,
             intervalTime = 1000L,
             myOnTick = { millisUntilFinished ->
                 val seconds = millisUntilFinished / 1000
-                timerText.text = String.format("%02d", seconds)
-                if (millisUntilFinished <= time / 2 && halfTime) {
+                when {
+                    seconds < 10 -> {
+                        timerText.text = "00:0${seconds + 1}"
+                    }
+                    seconds in 10..58 -> {
+                        timerText.text = "00:${seconds + 1}"
+                    } seconds.toInt() == 59 -> {
+                        timerText.text = "01:00"
+                    }
+
+                }
+                if (millisUntilFinished <= time - DEFAULT_HALF_TIME && halfTime) {
                     halfTime = false
                 }
             },
@@ -104,5 +122,20 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
         )
         gameTimer.start()
 
+    }
+
+    companion object {
+        const val DEFAULT_HALF_TIME = 15000L
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Освобождаем ресурсы MediaPlayer
+        if (::mediaPlayer.isInitialized) {
+            mediaPlayer.release()
+        }
+        if (::mediaPlayer2.isInitialized) {
+            mediaPlayer2.release()
+        }
     }
 }

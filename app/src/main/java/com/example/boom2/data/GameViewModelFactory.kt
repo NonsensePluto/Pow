@@ -8,7 +8,7 @@
 //import com.example.boom2.domain.ResetGameUseCase
 //import com.example.boom2.domain.StartGameUseCase
 //import com.example.boom2.domain.SwitchTeamUseCase
-//import com.example.boom2.presentation.GameViewModel
+//import com.example.boom2.presentation.game.GameViewModel
 //
 //class GameViewModelFactory(
 //    private val startGameUseCase: StartGameUseCase,

@@ -1,4 +1,4 @@
-package com.example.boom2.presentation
+package com.example.boom2.presentation.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,14 +16,8 @@ import com.example.boom2.data.event.TeamGenerator
 
 class SettingsFragment: Fragment(R.layout.activity_settings) {
     private lateinit var binding: ActivitySettingsBinding
-    private val viewModel: SettingsViewModel by activityViewModels()
+    private val settingsViewModel: SettingsViewModel by activityViewModels()
 
-    private final val MINIMUM_TEAM_COUNT = 2
-
-    private var countOfTeams = MINIMUM_TEAM_COUNT
-    private var countOfWords = 30;
-    private var hardCoreMode = false
-    private var forthRound = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = ActivitySettingsBinding.inflate(inflater, container, false)
@@ -37,62 +31,88 @@ class SettingsFragment: Fragment(R.layout.activity_settings) {
         val teamAdapter = TeamAdapter()
 
 
+        //Команды
         teamRecycler.layoutManager = LinearLayoutManager(requireContext())
         teamRecycler.adapter = teamAdapter
 
         teamAdapter.data = TeamGenerator.generateTeam(MINIMUM_TEAM_COUNT)
 
         binding.addTeamButton.setOnClickListener {
-            countOfTeams++
+            settingsViewModel.countOfWords.value = settingsViewModel.countOfWords.value!! + 1
             TeamGenerator.pushBack()
             teamAdapter.data = TeamGenerator.getTeams()
-            viewModel.teams.value = TeamGenerator.getTeams()
+            settingsViewModel.teams.value = TeamGenerator.getTeams()
         }
 
         binding.removeTeamButton.setOnClickListener {
-            if(countOfTeams != MINIMUM_TEAM_COUNT) {
-                countOfTeams--
+            if(settingsViewModel.countOfTeams.value != MINIMUM_TEAM_COUNT) {
+                settingsViewModel.countOfTeams.value = settingsViewModel.countOfTeams.value!! - 1
                 TeamGenerator.removeLast()
                 teamAdapter.data = TeamGenerator.getTeams()
-                viewModel.teams.value = TeamGenerator.getTeams()
+                settingsViewModel.teams.value = TeamGenerator.getTeams()
             }
         }
 
+
+        //Переключатели
         binding.forthRoundSwitch.setOnCheckedChangeListener { _, isChecked ->
-            forthRound = isChecked
+            settingsViewModel.forthRound.value = isChecked
         }
 
         binding.hardcoreRoundSwitch.setOnCheckedChangeListener { _, isChecked ->
-            hardCoreMode = isChecked
+            settingsViewModel.hardCoreMode.value = isChecked
         }
 
+
+        //Количество слов
         binding.WordsButton15.setOnClickListener {
-            countOfWords = 15
+            val countOfWords = 15
+            settingsViewModel.countOfWords.value = countOfWords
             val message = "Количество слов: $countOfWords"
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
 
         binding.WordsButton30.setOnClickListener {
-            countOfWords = 30
+            val countOfWords = 30
+            settingsViewModel.countOfWords.value = countOfWords
             val message = "Количество слов: $countOfWords"
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
 
         binding.WordsButton45.setOnClickListener {
-            countOfWords = 45
+            val countOfWords = 45
+            settingsViewModel.countOfWords.value = countOfWords
             val message = "Количество слов: $countOfWords"
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
+
+        //Время
+        binding.timeButton30.setOnClickListener {
+            val roundTime = 30L
+            settingsViewModel.roundTime.value = roundTime
+            val message = "Время раунда: $roundTime"
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
+
+        binding.timeButton45.setOnClickListener {
+            val roundTime = 45L
+            settingsViewModel.roundTime.value = roundTime
+            val message = "Время раунда: $roundTime"
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
+
+        binding.timeButton60.setOnClickListener {
+            val roundTime = 60L
+            settingsViewModel.roundTime.value = roundTime
+            val message = "Время раунда: $roundTime"
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
+
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        viewModel.countOfTeams.value = countOfTeams
-        viewModel.countOfWords.value = countOfWords
-        viewModel.forthRound.value = forthRound
-        viewModel.hardCoreMode.value = hardCoreMode
-
-        //binding = null
+    companion object {
+        const val MINIMUM_TEAM_COUNT = 2
     }
 }
+
+

@@ -1,4 +1,4 @@
-package com.example.boom2.presentation
+package com.example.boom2.presentation.confirms
 
 
 import android.app.Dialog
@@ -12,6 +12,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.boom2.R
 import com.example.boom2.data.Navigator
+import com.example.boom2.presentation.game.GameLobbyFragment
+import com.example.boom2.presentation.settings.SettingsViewModel
 
 class ConfirmSettingsFragment:DialogFragment() {
 
@@ -30,6 +32,7 @@ class ConfirmSettingsFragment:DialogFragment() {
 
         val teamText = view.findViewById<TextView>(R.id.teamsCountTextView)
         val wordsCountText = view.findViewById<TextView>(R.id.wordsCountTextView)
+        val roundTimerText = view.findViewById<TextView>(R.id.roundTimeTextView)
         val forthRoundText = view.findViewById<TextView>(R.id.forthRoundTextView)
         val hardcoreText = view.findViewById<TextView>(R.id.hardcoreTextView)
 
@@ -43,6 +46,10 @@ class ConfirmSettingsFragment:DialogFragment() {
 
         viewModel.countOfTeams.observe(viewLifecycleOwner) { countOfTeams ->
             teamText.text = "Количество команд: $countOfTeams"
+        }
+
+        viewModel.roundTime.observe(viewLifecycleOwner) { roundTime ->
+            roundTimerText.text = "Время на раунд: ${roundTime} сек."
         }
 
         viewModel.forthRound.observe(viewLifecycleOwner) { forthRound ->

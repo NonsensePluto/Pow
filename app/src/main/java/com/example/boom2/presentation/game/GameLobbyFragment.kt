@@ -1,4 +1,4 @@
-package com.example.boom2.presentation
+package com.example.boom2.presentation.game
 
 import android.os.Bundle
 import android.view.View
@@ -9,6 +9,8 @@ import com.example.boom2.R
 import com.example.boom2.data.Navigator
 import com.example.boom2.data.WordsManager
 import com.example.boom2.databinding.ActivityGameLobbyBinding
+import com.example.boom2.presentation.settings.SettingsViewModel
+import com.example.boom2.presentation.confirms.ConfirmExitFragment
 
 
 class GameLobbyFragment: Fragment(R.layout.activity_game_lobby) {

@@ -1,4 +1,4 @@
-package com.example.boom2.presentation
+package com.example.boom2.presentation.menu
 
 import android.os.Bundle
 import android.view.View
@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import com.example.boom2.R
 import com.example.boom2.data.Navigator
 import com.example.boom2.databinding.ActivityMainMenuBinding
+import com.example.boom2.presentation.settings.SettingsFragment
+import com.example.boom2.presentation.confirms.ConfirmSettingsFragment
 
 class MainMenuFragment : Fragment(R.layout.activity_main_menu) {
 

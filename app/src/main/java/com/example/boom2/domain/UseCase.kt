@@ -1,11 +1,5 @@
 package com.example.boom2.domain
 
-import com.example.boom2.data.WordsManager
-import com.example.boom2.data.event.Team
-import com.example.boom2.data.event.TeamGenerator
-import com.example.boom2.presentation.SettingsViewModel
-import javax.inject.Inject
-
 //class StartGameUseCase @Inject constructor(
 //    private val wordsManager: WordsManager,
 //    private val teamGenerator: TeamGenerator//передача этого в конструктор это принцип DI ЖЭЭЭЭЭ

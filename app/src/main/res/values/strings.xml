@@ -18,5 +18,7 @@
     <string name="countOfWords">Количество слов</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="roundTimeText">Время раунда</string>
+    <string name="roundTime">Время на раунд</string>
 
 </resources>

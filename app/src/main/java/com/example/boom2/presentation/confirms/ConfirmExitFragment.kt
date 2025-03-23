@@ -1,4 +1,4 @@
-package com.example.boom2.presentation
+package com.example.boom2.presentation.confirms
 
 import android.app.Dialog
 import android.os.Bundle
@@ -10,6 +10,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.boom2.R
 import com.example.boom2.data.Navigator
+import com.example.boom2.presentation.game.GameViewModel
+import com.example.boom2.presentation.menu.MainMenuFragment
 
 class ConfirmExitFragment: DialogFragment() {
 

@@ -1,8 +1,8 @@
-package com.example.boom2.presentation
+package com.example.boom2
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.boom2.R
+import com.example.boom2.presentation.menu.MainMenuFragment
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
