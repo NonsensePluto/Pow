@@ -4,6 +4,8 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.boom2.R
@@ -19,21 +21,30 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
     private val gameViewModel: GameViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private lateinit var wordsManager: WordsManager
-    private lateinit var mediaPlayer: MediaPlayer
-    private lateinit var mediaPlayer2: MediaPlayer
+    private lateinit var mediaPlayerGuessWord: MediaPlayer
+    private lateinit var mediaPlayerEndTime: MediaPlayer
+    private lateinit var mediaPlayerBackWord: MediaPlayer
 
 
     private lateinit var timerText: TextView
     private lateinit var gameTimer : GameTimer
+    private var wordsInSession = 0
     private var halfTime = true
     private var time: Long = 30000L
+
+    private val backPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            // Ничего не делаем - просто игнорируем
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         wordsManager = WordsManager(this.requireContext())
-        mediaPlayer = MediaPlayer.create(this.requireContext(), R.raw.guessed)
-        mediaPlayer2 = MediaPlayer.create(this.requireContext(), R.raw.shoot)
+        mediaPlayerGuessWord = MediaPlayer.create(this.requireContext(), R.raw.guessed)
+        mediaPlayerEndTime = MediaPlayer.create(this.requireContext(), R.raw.shoot)
+        mediaPlayerBackWord = MediaPlayer.create(this.requireContext(), R.raw.backtrack)
         binding = ActivityGameRoomBinding.bind(view)
         timerText = view.findViewById(R.id.timerText)
 
@@ -50,10 +61,12 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
 
         binding?.pointsButton?.setOnClickListener {
             currentTeam.wordsCount++
-            mediaPlayer.start()
+            wordsInSession++
+            mediaPlayerGuessWord.start()
+
             guessedWords.add(currWord!!)
             unguessedWords.remove(currWord)
-            if (unguessedWords.isEmpty() == false) {
+            if (unguessedWords.isNotEmpty()) {
                 currWord = unguessedWords.let { wordsManager.selectRandomWord(it) }
                 binding?.wordText?.text = currWord
             } else {
@@ -62,27 +75,27 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
             }
         }
 
-//        var currWord = gameViewModel.randomWord()
-//        binding?.wordText?.text = currWord
-//
-//        binding?.pointsButton?.setOnClickListener {
-//            gameViewModel.guessedWord(currWord!!)
-//            if (gameViewModel.getSize() != 0) {//почему то до этого стоит проверка на исЭмпти тру
-//                currWord = gameViewModel.randomWord()
-//                binding?.wordText?.text = currWord
-//            } else {
-//                gameViewModel.endRound()
-//                endSession()
-//            }
-//        }
+        binding?.backTrackButton?.setOnClickListener {
+            if(wordsInSession > 0) {
+                currentTeam.wordsCount--
+                wordsInSession--
+                mediaPlayerBackWord.start()
+                currWord = guessedWords.last()
+                binding?.wordText?.text = currWord
+                guessedWords.remove(currWord)
+                unguessedWords.add(currWord!!)
+            } else {
+                Toast.makeText(this.requireContext(), "Вы еще не угадали ни одного слова", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            backPressedCallback
+        )
 
         startCountdown()
     }
-
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        gameTimer.stop()
-//    }
 
 
     private fun endSession() {
@@ -91,9 +104,9 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
         } else {
             gameViewModel.switchTeam.value = true
         }
-        mediaPlayer2.start()
+        mediaPlayerEndTime.start()
+        wordsInSession = 0
         gameTimer.stop()
-//        gameViewModel.switchTeam()
         Navigator.navigate(parentFragmentManager, GameLobbyFragment())
     }
 
@@ -104,10 +117,10 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
             myOnTick = { millisUntilFinished ->
                 val seconds = millisUntilFinished / 1000
                 when {
-                    seconds < 10 -> {
+                    seconds < 9 -> {
                         timerText.text = "00:0${seconds + 1}"
                     }
-                    seconds in 10..58 -> {
+                    seconds in 9..58 -> {
                         timerText.text = "00:${seconds + 1}"
                     } seconds.toInt() == 59 -> {
                         timerText.text = "01:00"
@@ -131,11 +144,14 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
     override fun onDestroy() {
         super.onDestroy()
         // Освобождаем ресурсы MediaPlayer
-        if (::mediaPlayer.isInitialized) {
-            mediaPlayer.release()
+        if (::mediaPlayerGuessWord.isInitialized) {
+            mediaPlayerGuessWord.release()
         }
-        if (::mediaPlayer2.isInitialized) {
-            mediaPlayer2.release()
+        if (::mediaPlayerEndTime.isInitialized) {
+            mediaPlayerEndTime.release()
+        }
+        if (::mediaPlayerBackWord.isInitialized) {
+            mediaPlayerBackWord.release()
         }
     }
 }

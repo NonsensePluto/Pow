@@ -12,7 +12,7 @@
         android:id="@+id/boomPic"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:src="@drawable/boom2"
+        android:src="@drawable/pow"
         android:scaleType="centerCrop"
 
         app:layout_constraintEnd_toEndOf="parent"

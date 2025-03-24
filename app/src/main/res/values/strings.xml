@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Boom2</string>
+    <string name="app_name">Pow!</string>
     <string name="startText">Играть</string>
     <string name="settingText">Настройки</string>
     <string name="ruleText">Правила</string>
@@ -20,5 +20,11 @@
     <string name="no">Нет</string>
     <string name="roundTimeText">Время раунда</string>
     <string name="roundTime">Время на раунд</string>
+    <string name="startButtonText">Начать</string>
+    <string name="remainingWordsText">Осталось слов:</string>
+    <string name="teamNumberText">Команда:</string>
+    <string name="riundNumberText">Раунд:</string>
+    <string name="teamImage">teamImage</string>
+    <string name="guessText">Угадали!</string>
 
 </resources>

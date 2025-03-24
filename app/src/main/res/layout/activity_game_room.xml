@@ -33,13 +33,26 @@
         android:layout_width="wrap_content"
         android:layout_height="80dp"
         android:textSize="30sp"
-        android:text="Угадали!"
+        android:text="@string/guessText"
         android:backgroundTint="@color/black"
         app:layout_constraintTop_toTopOf="@id/wordText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="100dp"/>
+
+    <ImageButton
+        android:id="@+id/backTrackButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:backgroundTint="@color/black"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintTop_toBottomOf="@id/pointsButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

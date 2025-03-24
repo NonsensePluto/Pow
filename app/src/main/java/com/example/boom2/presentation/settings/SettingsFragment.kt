@@ -10,9 +10,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boom2.R
+import com.example.boom2.data.Navigator
 import com.example.boom2.data.adapter.TeamAdapter
 import com.example.boom2.databinding.ActivitySettingsBinding
 import com.example.boom2.data.event.TeamGenerator
+import com.example.boom2.presentation.menu.MainMenuFragment
+import com.google.android.material.appbar.MaterialToolbar
 
 class SettingsFragment: Fragment(R.layout.activity_settings) {
     private lateinit var binding: ActivitySettingsBinding
@@ -29,7 +32,13 @@ class SettingsFragment: Fragment(R.layout.activity_settings) {
 
         val teamRecycler: RecyclerView = binding.teamRecycler
         val teamAdapter = TeamAdapter()
+        settingsViewModel.countOfTeams.value = MINIMUM_TEAM_COUNT
+        settingsViewModel.generateDefaultTeams()
 
+//        //ToolBar
+//        binding.toolbar.setNavigationOnClickListener {
+//            Navigator.navigate(parentFragmentManager, MainMenuFragment())
+//        }
 
         //Команды
         teamRecycler.layoutManager = LinearLayoutManager(requireContext())
@@ -38,10 +47,11 @@ class SettingsFragment: Fragment(R.layout.activity_settings) {
         teamAdapter.data = TeamGenerator.generateTeam(MINIMUM_TEAM_COUNT)
 
         binding.addTeamButton.setOnClickListener {
-            settingsViewModel.countOfWords.value = settingsViewModel.countOfWords.value!! + 1
+            settingsViewModel.countOfTeams.value = settingsViewModel.countOfTeams.value!! + 1
             TeamGenerator.pushBack()
             teamAdapter.data = TeamGenerator.getTeams()
-            settingsViewModel.teams.value = TeamGenerator.getTeams()
+            settingsViewModel.teams.value = TeamGenerator.getTeams().toMutableList()
+
         }
 
         binding.removeTeamButton.setOnClickListener {
@@ -49,7 +59,7 @@ class SettingsFragment: Fragment(R.layout.activity_settings) {
                 settingsViewModel.countOfTeams.value = settingsViewModel.countOfTeams.value!! - 1
                 TeamGenerator.removeLast()
                 teamAdapter.data = TeamGenerator.getTeams()
-                settingsViewModel.teams.value = TeamGenerator.getTeams()
+                settingsViewModel.teams.value = TeamGenerator.getTeams().toMutableList()
             }
         }
 

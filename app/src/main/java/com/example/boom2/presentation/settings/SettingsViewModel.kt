@@ -14,15 +14,17 @@ class SettingsViewModel : ViewModel() {
     val forthRound = MutableLiveData(DEFAULT_FORTH_ROUND_STATE)
     val roundTime = MutableLiveData(DEFAULT_TIME)
 
-    val teams = MutableLiveData<List<Team>>()
+    val teams = MutableLiveData<MutableList<Team>>()
 
     init {
         // Генерация команд по умолчанию
-        generateDefaultTeams()
+        if (teams.value?.isEmpty() == true || teams.value == null) {
+            generateDefaultTeams()
+        }
     }
 
-    private fun generateDefaultTeams() {
-        teams.value = TeamGenerator.generateTeam(countOfTeams.value ?: 2)
+    fun generateDefaultTeams() {
+        teams.value = TeamGenerator.generateTeam(countOfTeams.value ?: 2).toMutableList()
     }
 
     companion object {
