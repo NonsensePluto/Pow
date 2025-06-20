@@ -3,20 +3,11 @@ package com.example.boom2.presentation.game
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.boom2.data.WordsManager
-import com.example.boom2.data.event.Team
-import com.example.boom2.data.event.TeamGenerator
+import com.example.boom2.domain.WordsManager
+import com.example.boom2.data.entities.Team
+import com.example.boom2.data.entities.event.TeamGenerator
 import com.example.boom2.presentation.settings.SettingsViewModel
 
-//import com.example.boom2.domain.GameState
-//import com.example.boom2.domain.GetSizeUseCase
-//import com.example.boom2.domain.GuessedWordUseCase
-//import com.example.boom2.domain.RandomWordUseCase
-//import com.example.boom2.domain.ResetGameUseCase
-//import com.example.boom2.domain.StartGameUseCase
-//import com.example.boom2.domain.SwitchTeamUseCase
-//import dagger.hilt.android.lifecycle.HiltViewModel
-//import javax.inject.Inject
 
 
 class GameViewModel : ViewModel(){
@@ -80,73 +71,3 @@ class GameViewModel : ViewModel(){
         private const val DEFAULT_ROUNDS_COUNT = 3
     }
 }
-
-//@HiltViewModel
-//class GameViewModel @Inject constructor(
-//    private val startGameUseCase: StartGameUseCase,
-//    private val guessedWordUseCase: GuessedWordUseCase,
-//    private val switchTeamUseCase: SwitchTeamUseCase,
-//    private val resetGameUseCase: ResetGameUseCase,
-//    private val randomWordUseCase: RandomWordUseCase,
-//    private val getSizeUseCase: GetSizeUseCase
-//): ViewModel() {
-//
-//    private val _gameState = MutableLiveData<GameState>()
-//    val gameState: LiveData<GameState> get() = _gameState
-//
-//    fun initializeGame(settingsViewModel: SettingsViewModel) {
-//        val state = startGameUseCase(settingsViewModel)
-//        _gameState.value = state
-//    }
-//
-//    fun guessedWord(word: String) {
-//        _gameState.value?.let { state ->
-//            guessedWordUseCase(state, word)
-//            _gameState.value = state
-//        }
-//    }
-//
-//    fun randomWord(): String? {
-//        var word: String? = null
-//        _gameState.value?.let { state->
-//            word = randomWordUseCase(state)
-//        }
-//
-//        return word
-//    }
-//
-//    fun switchTeam() {
-//        _gameState.value?.let { state ->
-//            switchTeamUseCase(state)
-//            _gameState.value = state
-//        }
-//    }
-//
-//    fun resetGame() {
-//        _gameState.value?.let { state ->
-//            resetGameUseCase(state)
-//            _gameState.value = state
-//        }
-//    }
-//
-//    fun getSize():Int {
-//        var size: Int = -1
-//        _gameState.value?.let { state ->
-//            size = getSizeUseCase(state)!!
-//        }
-//
-//        return size
-//    }
-//
-//    fun isNotInit(): Boolean {
-//        return _gameState.value == null ||
-//                _gameState.value?.unGuessedWords == null ||
-//                _gameState.value?.teams == null
-//    }
-//
-//    fun endRound() {
-//        _gameState.value?.let { state->
-//            state.endRound = true
-//            _gameState.value = state
-//        }
-//    }

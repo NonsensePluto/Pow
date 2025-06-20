@@ -11,13 +11,14 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.boom2.R
-import com.example.boom2.data.Navigator
+import com.example.boom2.domain.Navigator
 import com.example.boom2.presentation.game.GameLobbyFragment
 import com.example.boom2.presentation.settings.SettingsViewModel
 
 class ConfirmSettingsFragment:DialogFragment() {
 
     private val viewModel: SettingsViewModel by activityViewModels()
+    private lateinit var navigator: Navigator
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +30,7 @@ class ConfirmSettingsFragment:DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navigator = Navigator()
 
         val teamText = view.findViewById<TextView>(R.id.teamsCountTextView)
         val wordsCountText = view.findViewById<TextView>(R.id.wordsCountTextView)
@@ -69,7 +71,7 @@ class ConfirmSettingsFragment:DialogFragment() {
         }
 
         confirmButton.setOnClickListener {
-            Navigator.navigate(parentFragmentManager, GameLobbyFragment())
+            navigator.navigate(parentFragmentManager, GameLobbyFragment())
             dismiss()
         }
 

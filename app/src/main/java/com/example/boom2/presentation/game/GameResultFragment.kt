@@ -9,9 +9,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boom2.R
-import com.example.boom2.data.Navigator
-import com.example.boom2.data.WordsManager
-import com.example.boom2.data.adapter.ResultAdapter
+import com.example.boom2.domain.Navigator
+import com.example.boom2.domain.WordsManager
+import com.example.boom2.data.entities.adapter.ResultAdapter
 import com.example.boom2.databinding.ActivityGameResultBinding
 import com.example.boom2.presentation.menu.MainMenuFragment
 import com.example.boom2.presentation.settings.SettingsViewModel
@@ -21,6 +21,8 @@ class GameResultFragment: Fragment(R.layout.activity_game_result) {
     private val gameViewModel: GameViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private lateinit var binding: ActivityGameResultBinding
+    private lateinit var navigator: Navigator
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = ActivityGameResultBinding.inflate(inflater, container, false)
@@ -29,6 +31,7 @@ class GameResultFragment: Fragment(R.layout.activity_game_result) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navigator = Navigator()
 
         val teamRecycler: RecyclerView = binding.teamResultRecycler
         val teamAdapter = ResultAdapter()
@@ -68,11 +71,11 @@ class GameResultFragment: Fragment(R.layout.activity_game_result) {
             gameViewModel.guessedWords.value?.clear()
 
             gameViewModel.endRound.value = false
-            Navigator.navigate(parentFragmentManager, GameLobbyFragment())
+            navigator.navigate(parentFragmentManager, GameLobbyFragment())
 
         } else {
             gameViewModel.resetGame()
-            Navigator.navigate(parentFragmentManager, MainMenuFragment())
+            navigator.navigate(parentFragmentManager, MainMenuFragment())
         }
 
     }

@@ -60,6 +60,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textLinearLayout"
         android:text="@string/startButtonText"
         android:backgroundTint="@color/black"
-        android:layout_marginTop="350dp"/>
+        android:layout_marginTop="400dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

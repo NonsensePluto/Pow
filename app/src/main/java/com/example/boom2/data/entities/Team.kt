@@ -1,4 +1,4 @@
-package com.example.boom2.data.event
+package com.example.boom2.data.entities
 
 data class Team(
     val imageId: Int,

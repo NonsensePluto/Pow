@@ -1,4 +1,4 @@
-package com.example.boom2.data
+package com.example.boom2.domain
 
 import android.os.CountDownTimer
 

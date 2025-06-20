@@ -6,8 +6,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.boom2.R
-import com.example.boom2.data.Navigator
-import com.example.boom2.data.WordsManager
+import com.example.boom2.domain.Navigator
+import com.example.boom2.domain.WordsManager
 import com.example.boom2.databinding.ActivityGameLobbyBinding
 import com.example.boom2.presentation.settings.SettingsViewModel
 import com.example.boom2.presentation.confirms.ConfirmExitFragment
@@ -20,10 +20,13 @@ class GameLobbyFragment: Fragment(R.layout.activity_game_lobby) {
     private val gameViewModel: GameViewModel by activityViewModels()
     private lateinit var wordsManager: WordsManager
     private var currentTeamNumber: Int = 1
+    private lateinit var navigator: Navigator
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        navigator = Navigator()
         wordsManager = WordsManager(this.requireContext())
         binding = ActivityGameLobbyBinding.bind(view)
         currentTeamNumber = gameViewModel.currTeamNumber.value!!
@@ -33,14 +36,13 @@ class GameLobbyFragment: Fragment(R.layout.activity_game_lobby) {
             gameViewModel.initializeGame(settingsViewModel, requireContext())
         }
 
-//        binding?.teamImage?.setImageResource(gameViewModel.teams.value[gameViewModel.currTeamNumber.value - 1].imageId)
 
         if (gameViewModel.switchTeam.value == true) {
             switchTeam()
         }
 
         if (gameViewModel.endRound.value == true) {
-            Navigator.navigate(parentFragmentManager, GameResultFragment())
+            navigator.navigate(parentFragmentManager, GameResultFragment())
         }
 
         gameViewModel.currTeamNumber.observe(viewLifecycleOwner) { teamNum ->
@@ -50,9 +52,6 @@ class GameLobbyFragment: Fragment(R.layout.activity_game_lobby) {
             }
         }
 
-//        gameViewModel.teams.value?.get(gameViewModel.currTeamNumber.value!! - 1)?.let {
-//            binding?.teamImage?.setImageResource(it.imageId)
-//        }
 
         gameViewModel.currRound.observe(viewLifecycleOwner) { currRound->
             binding?.roundText?.text = "Раунд: $currRound"
@@ -72,7 +71,7 @@ class GameLobbyFragment: Fragment(R.layout.activity_game_lobby) {
         }
 
         binding?.playButton?.setOnClickListener {
-            Navigator.navigate(parentFragmentManager, GameRoomFragment())
+            navigator.navigate(parentFragmentManager, GameRoomFragment())
         }
 
         // Перехват нажатия кнопки "Назад"
@@ -112,38 +111,3 @@ class GameLobbyFragment: Fragment(R.layout.activity_game_lobby) {
         gameViewModel.switchTeam.value = false
     }
 }
-
-
-
-
-
-
-//if (gameViewModel.isNotInit()) {
-//    gameViewModel.initializeGame(settingsViewModel)
-//}
-//
-//gameViewModel.gameState.observe(viewLifecycleOwner) { state ->
-//    state.currentTeam?.imageId?.let { binding?.teamImage?.setImageResource(it) }
-//    binding?.roundText?.text = "Раунд: ${state.currRound}"
-//    binding?.currentTeamText?.text = state.currentTeam?.name
-//    binding?.remainingWordsText?.text = "Осталось слов: ${state.unGuessedWords?.size}"
-//}
-//
-//
-//binding?.playButton?.setOnClickListener {
-//    Navigator.navigate(parentFragmentManager, GameRoomFragment())
-//}
-//
-//// Перехват нажатия кнопки "Назад"
-//val callback = object : OnBackPressedCallback(true) {
-//    override fun handleOnBackPressed() {
-//        // Показываем диалог подтверждения выхода
-//        val dialog = ConfirmExitFragment().newInstance()
-//        dialog.show(parentFragmentManager, "ConfirmExitDialog")
-//    }
-//}
-//
-//// Регистрируем обработчик
-//requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-//
-//}

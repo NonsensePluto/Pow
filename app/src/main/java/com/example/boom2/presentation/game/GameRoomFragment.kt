@@ -1,6 +1,6 @@
 package com.example.boom2.presentation.game
 
-import android.media.MediaPlayer
+
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -9,10 +9,11 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.boom2.R
-import com.example.boom2.data.GameTimer
-import com.example.boom2.data.Navigator
-import com.example.boom2.data.WordsManager
+import com.example.boom2.domain.GameTimer
+import com.example.boom2.domain.Navigator
+import com.example.boom2.domain.WordsManager
 import com.example.boom2.databinding.ActivityGameRoomBinding
+import com.example.boom2.domain.SoundManager
 import com.example.boom2.presentation.settings.SettingsViewModel
 
 class GameRoomFragment: Fragment(R.layout.activity_game_room) {
@@ -20,10 +21,10 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
     private var binding: ActivityGameRoomBinding? = null
     private val gameViewModel: GameViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
+    private lateinit var soundManager: SoundManager
     private lateinit var wordsManager: WordsManager
-    private lateinit var mediaPlayerGuessWord: MediaPlayer
-    private lateinit var mediaPlayerEndTime: MediaPlayer
-    private lateinit var mediaPlayerBackWord: MediaPlayer
+    private lateinit var navigator: Navigator
+
 
 
     private lateinit var timerText: TextView
@@ -41,12 +42,11 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        wordsManager = WordsManager(this.requireContext())
-        mediaPlayerGuessWord = MediaPlayer.create(this.requireContext(), R.raw.guessed)
-        mediaPlayerEndTime = MediaPlayer.create(this.requireContext(), R.raw.shoot)
-        mediaPlayerBackWord = MediaPlayer.create(this.requireContext(), R.raw.backtrack)
+        navigator = Navigator()
         binding = ActivityGameRoomBinding.bind(view)
         timerText = view.findViewById(R.id.timerText)
+        soundManager = SoundManager(this.requireContext())
+        wordsManager = WordsManager(this.requireContext())
 
         time = settingsViewModel.roundTime.value?.times(1000) ?: 0
 
@@ -62,7 +62,7 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
         binding?.pointsButton?.setOnClickListener {
             currentTeam.wordsCount++
             wordsInSession++
-            mediaPlayerGuessWord.start()
+            soundManager.playGuessedSound()
 
             guessedWords.add(currWord!!)
             unguessedWords.remove(currWord)
@@ -78,8 +78,8 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
         binding?.backTrackButton?.setOnClickListener {
             if(wordsInSession > 0) {
                 currentTeam.wordsCount--
+                soundManager.playBacktrackSound()
                 wordsInSession--
-                mediaPlayerBackWord.start()
                 currWord = guessedWords.last()
                 binding?.wordText?.text = currWord
                 guessedWords.remove(currWord)
@@ -104,10 +104,10 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
         } else {
             gameViewModel.switchTeam.value = true
         }
-        mediaPlayerEndTime.start()
+        soundManager.playEndTimeSound()
         wordsInSession = 0
         gameTimer.stop()
-        Navigator.navigate(parentFragmentManager, GameLobbyFragment())
+        navigator.navigate(parentFragmentManager, GameLobbyFragment())
     }
 
     private fun startCountdown() {
@@ -143,15 +143,6 @@ class GameRoomFragment: Fragment(R.layout.activity_game_room) {
 
     override fun onDestroy() {
         super.onDestroy()
-        // Освобождаем ресурсы MediaPlayer
-        if (::mediaPlayerGuessWord.isInitialized) {
-            mediaPlayerGuessWord.release()
-        }
-        if (::mediaPlayerEndTime.isInitialized) {
-            mediaPlayerEndTime.release()
-        }
-        if (::mediaPlayerBackWord.isInitialized) {
-            mediaPlayerBackWord.release()
-        }
+        soundManager.release()
     }
 }

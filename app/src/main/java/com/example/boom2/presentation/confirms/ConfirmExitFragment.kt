@@ -9,13 +9,15 @@ import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.boom2.R
-import com.example.boom2.data.Navigator
+import com.example.boom2.domain.Navigator
 import com.example.boom2.presentation.game.GameViewModel
 import com.example.boom2.presentation.menu.MainMenuFragment
 
 class ConfirmExitFragment: DialogFragment() {
 
     private val viewModel: GameViewModel by activityViewModels()
+    private lateinit var navigator: Navigator
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,12 +29,13 @@ class ConfirmExitFragment: DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navigator = Navigator()
 
         val confirmButton = view.findViewById<Button>(R.id.confirmExitButton)
         val rejectButton = view.findViewById<Button>(R.id.rejectExitButton)
 
         confirmButton.setOnClickListener {
-            Navigator.navigate(parentFragmentManager, MainMenuFragment())
+            navigator.navigate(parentFragmentManager, MainMenuFragment())
             viewModel.resetGame()
             dismiss()
         }

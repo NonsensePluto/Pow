@@ -1,8 +1,7 @@
-package com.example.boom2.data.event
+package com.example.boom2.data.entities.event
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.example.boom2.R
+import com.example.boom2.data.entities.Team
 
 object TeamGenerator {
 

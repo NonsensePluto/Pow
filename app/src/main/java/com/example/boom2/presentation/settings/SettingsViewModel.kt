@@ -2,11 +2,12 @@ package com.example.boom2.presentation.settings
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.boom2.data.event.Team
-import com.example.boom2.data.event.TeamGenerator
+import com.example.boom2.data.entities.Team
+import com.example.boom2.data.entities.event.TeamGenerator
 
 
 class SettingsViewModel : ViewModel() {
+    private val teamGenerator = TeamGenerator
 
     val countOfTeams = MutableLiveData(MINIMUM_TEAM_COUNT)
     val countOfWords = MutableLiveData(DEFAULT_COUNT_OF_WORDS)
@@ -24,7 +25,7 @@ class SettingsViewModel : ViewModel() {
     }
 
     fun generateDefaultTeams() {
-        teams.value = TeamGenerator.generateTeam(countOfTeams.value ?: 2).toMutableList()
+        teams.value = teamGenerator.generateTeam(countOfTeams.value ?: 2).toMutableList()
     }
 
     companion object {

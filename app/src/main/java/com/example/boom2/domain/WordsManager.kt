@@ -1,4 +1,4 @@
-package com.example.boom2.data
+package com.example.boom2.domain
 
 import android.content.Context
 import android.util.Log

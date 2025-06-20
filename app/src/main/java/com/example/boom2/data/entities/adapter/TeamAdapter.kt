@@ -1,4 +1,4 @@
-package com.example.boom2.data.adapter
+package com.example.boom2.data.entities.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boom2.R
-import com.example.boom2.data.event.Team
+import com.example.boom2.data.entities.Team
 
 class TeamAdapter: RecyclerView.Adapter<TeamAdapter.TeamHolder>() {
 
